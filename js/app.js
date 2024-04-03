@@ -23,9 +23,33 @@ UI.prototype.llenarOpciones = () => {
     }
 }
 
+// Muestra alertas en pantalla
+UI.prototype.mostrarMensaje = (mensaje, tipo) => {
+    const div = document.createElement('div');
+
+    if(tipo === 'error'){
+        div.classList.add('error');
+    } else {
+        div.classList.add('correcto');
+    }
+
+    div.classList.add('mensaje', 'mt-10');
+    div.textContent = mensaje;
+
+    // Insertar mensaje en HTML
+    const formulario = document.querySelector('#cotizar-seguro'); // selección de id
+    formulario.insertBefore(div, document.querySelector('#resultado')) // donde insertamos
+
+    // Eliminamos el mensaje
+    setTimeout(() => {
+        div.remove();
+    }, 3000);
+}
+
+
 // Instancear UI
 const ui = new UI();
-console.log(ui);
+// console.log(ui);
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,12 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 eventListeners();
-// Función para validar el formulario
+
 function eventListeners(){
     const formulario = document.querySelector('#cotizar-seguro');
     formulario.addEventListener('submit', cotizarSeguro)
 }
 
+// Función para validar el formulario
 function cotizarSeguro(e){
     e.preventDefault();
 
@@ -52,8 +77,14 @@ function cotizarSeguro(e){
     const tipo = document.querySelector('input[name="tipo"]:checked').value; // selector de css para diferenciar los radio button
 
     if (marca === '' || year === '' || tipo === '') {
-        console.log('NO paso la validación');
-    } else {
-        console.log('SI paso la validación');
+        ui.mostrarMensaje('Todos los campos son obligatorios', 'error');
+        return;
     }
+        ui.mostrarMensaje('Cotizando...', 'exito');
+
+        // Instancear el seguro
+
+
+        // Utilizar el prototype que va a cotizar
+    
 }
